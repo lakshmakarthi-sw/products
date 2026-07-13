@@ -1,3 +1,236 @@
 :root {
-  --bg: #fff
+  --primary-color: #f8f8f8;
+  --secondary-color: #5728ff; 
+  --bg-light-color: #efefef;
+  --bg-dark-color: #21222b;
+  --text-light-color: #9a9a9a;
+  --text-dark-color: #07090e;
+  --text-white-color: #ffffff;
+  --border-radius: 6px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: var(--text-light-color);
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  & > div {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--primary-color);
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 50px auto 40px;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main"
+    "sidebar footer";
+  min-height: 100vh;
+}
+
+.header {
+  grid-area: header;
+  align-self: center;
+  margin: 0 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-dark-color);
+  
+  h2 {
+    color: var(--text-dark-color);
+  }
+
+  button {
+    display: none;
+    background-color: transparent;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+  }
+
+  @media screen and (max-width: 480px) {
+    button {
+      display: block;
+    }
+  }
+}
+
+.sidebar {
+  grid-area: sidebar;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 250px;
+  background-color: var(--bg-dark-color);
+  box-shadow: 1px 0 5px 1px var(--bg-dark-color);
+}
+
+.sidebar-menu {
+  margin: 20px 30px;
+
+  h2 {
+    color: var(--text-white-color);
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid var(--text-light-color);
+    border-radius: 1px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 8px 0;
+      margin-bottom: 10px;
+      border-radius: var(--border-radius);
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        background-color: var(--bg-light-color);
+        color: var(--text-dark-color);        
+      }
+    }
+  }
+}
+
+main {
+  grid-area: main;
+  margin: 0 2rem;
+  max-height: fit-content;
+}
+
+.search-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  height: 30px;
+
+  input {
+    padding: 8px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--text-light-color);
+    width: 200px;
+  }
+
+  button {
+    background-color: var(--secondary-color);
+    color: var(--text-white-color);
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+
+    &:hover {
+      background-color: #724ff1;
+    }
+  }
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(200px, 2fr));
+  gap: 1rem;
+  margin: 2rem auto;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--text-light-color);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-img {
+  width: 100%;
+  height: 70%;
+}
+
+.product-img img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  object-position: top center;
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.product-info {
+  padding: 1rem;
+  height: 100%;
+}
+
+.product-price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.product-price-rating {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+footer {
+  grid-area: footer;
+  background-color: var(--primary-color);
+  color: var(--text-light-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px auto 40px;
+    grid-template-areas:
+      "header"
+      "main"
+      "footer";
+  }
+
+  .product-list {
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .product-list {
+    grid-template-columns: 1fr;
+  }   
 }
