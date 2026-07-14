@@ -9,6 +9,7 @@ import { useApp } from './AppProvider';
 import { Route, Routes } from 'react-router';
 
 const MessagePage = lazy(() => import('../components/Message'));
+const AboutPage = lazy(() => import('../features/about/AboutPage'));
 
 function App() {
   const { isToggled, handleToggle } = useApp();
@@ -37,6 +38,7 @@ function App() {
             <ProductPage />
             <Footer />
           </div>} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path='*' element={<MessagePage  content="Page Not Found" />} />
         </Routes>
       </Suspense>

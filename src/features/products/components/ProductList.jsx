@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ProductCard from "./ProductCard";
 import productService from "../ProductService";
 import { useApp } from "../../../app/AppProvider";
@@ -6,27 +6,41 @@ import { useApp } from "../../../app/AppProvider";
 const ProductList = () => {
   const { searchQuery } = useApp();
 
-  const { data, isLoading, error } = useQuery({
+  const {
+    data,
+    error,
+    // fetchNextPage,
+    // hasNextPage,
+    // isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
     queryKey: ["products", searchQuery],
     queryFn: productService.searchProducts.bind(null, {
       q: searchQuery,
-      limit: 12,
       skip: 0,
     }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      // Assuming your JSON response has a total property
+      const currentFetchedCount = allPages.flatMap(page => page.items).length;
+      return currentFetchedCount < lastPage.total ? currentFetchedCount : undefined;
+    },
   });
 
-  if (isLoading) {
+  if (status === 'pending') {
     return <div>Loading...</div>;
   }
 
-  if (error) {
+  if (status === 'error') {
     return <div>Error: {error.message}</div>;
   } 
 
   return (
     <>
-      {data?.products?.map((product) => (
-        <ProductCard key={product.id} product={product} />
+      {data?.pages?.map((page) => (
+        page.products?.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))
       ))}
     </>
   );
