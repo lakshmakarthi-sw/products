@@ -5,15 +5,14 @@ import useDebounce from "../../../hooks/useDebounce";
 const SearchSection = () => {
   const { handleSearch } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
-  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
   const handleSearchInputChange = useCallback((event) => {
-    const query = event.target.value;
-    setSearchQuery(query);
+    setSearchQuery(event.target.value);
   }, []);
 
   useEffect(() => {
-    debouncedSearchQuery && handleSearch(debouncedSearchQuery);
+     debouncedSearchQuery && handleSearch(debouncedSearchQuery);
   }, [debouncedSearchQuery, handleSearch]);
 
   return (

@@ -7,7 +7,7 @@ export const AppProvider = ({ children }) => {
   const [isToggled, setIsToggled] = useState(!navigator.userAgentData.mobile);
 
   const handleSearch = (query) => {
-    setSearchQuery(query); 
+    setSearchQuery(query);
   };
 
   const handleToggle = (toggle) => {

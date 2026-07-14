@@ -6,7 +6,7 @@ export function useThrottle(callback, delay = 200) {
 
   return useCallback((...args) => {
     const now = Date.now();
-    
+
     // Only execute if enough time has passed since the last execution
     if (now - lastCall.current >= delay) {
       lastCall.current = now;

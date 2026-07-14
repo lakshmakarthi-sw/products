@@ -1,7 +1,7 @@
 import ProductCard from "./ProductCard";
 
 const ProductList = (props) => {
-  
+
   return (
     <>
       {props.data?.pages?.map((page) => (

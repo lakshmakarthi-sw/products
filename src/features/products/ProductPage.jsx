@@ -6,7 +6,6 @@ import { useThrottle } from "../../hooks/useThrottle";
 import productService from "../products/productService";
 
 const ProductPage = () => {
-
   const { searchQuery } = useApp();
 
   const {
@@ -39,21 +38,21 @@ const ProductPage = () => {
 
   if (status === 'error') {
     return <div>Error: {error.message}</div>;
-  } 
+  }
 
   return (
     <>
-        <SearchSection />
-        <section className="product-list">
-            <ProductList data={data} />
-        </section>
-        <section className="load-more-section">
-            <button disabled={!hasNextPage || isFetchingNextPage} role="button" onClick={handleClick}>
-              {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'Nothing more to load'}
-            </button>
-        </section>
+      <SearchSection />
+      <section className="product-list">
+        <ProductList data={data} />
+      </section>
+      <section className="load-more-section">
+        <button disabled={!hasNextPage || isFetchingNextPage} role="button" onClick={handleClick}>
+          {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'Nothing more to load'}
+        </button>
+      </section>
     </>
   );
-}   
+}
 
 export default ProductPage;

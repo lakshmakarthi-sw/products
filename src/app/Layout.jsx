@@ -14,10 +14,10 @@ function Layout() {
     <div className="layout">
       <Header title="Products" />
       {isToggled && <Suspense fallback={<MessagePage content="Loading" />}>
-          <SideBar />
+        <SideBar />
       </Suspense>}
       <main className="main">
-        <Outlet /> 
+        <Outlet />
       </main>
       <Footer />
     </div>
