@@ -1,25 +1,56 @@
-import { useQueryClient } from "@tanstack/react-query";
-import { useThrottle } from "../../hooks/useThrottle";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ProductList from "./components/ProductList";
 import SearchSection from "./components/SearchSection";
+import { useApp } from "../../app/AppProvider";
+import { useThrottle } from "../../hooks/useThrottle";
+import productService from "../products/productService";
 
 const ProductPage = () => {
-  const queryClient = useQueryClient()
+
+  const { searchQuery } = useApp();
+
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["products", searchQuery],
+    queryFn: productService.searchProducts.bind(null, {
+      q: searchQuery,
+      skip: 0,
+    }),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      const currentFetchedCount = allPages.flatMap(page => page.items).length;
+      return currentFetchedCount < lastPage.total ? currentFetchedCount : undefined;
+    },
+  });
 
   const handleClick = useThrottle(() => {
-    queryClient.fetchNextPage();
-  }, 3000);
+    fetchNextPage();
+  }, 300);
+
+  if (status === 'pending') {
+    return <div>Loading...</div>;
+  }
+
+  if (status === 'error') {
+    return <div>Error: {error.message}</div>;
+  } 
 
   return (
     <>
         <SearchSection />
         <section className="product-list">
-                <ProductList />
+            <ProductList data={data} />
         </section>
         <section className="load-more-section">
-                <button disabled={!queryClient.hasNextPage || queryClient.isFetchingNextPage} role="button" onClick={handleClick}>
-                  {queryClient.isFetchingNextPage ? 'Loading more...' : queryClient.hasNextPage ? 'Load More' : 'Nothing more to load'}
-                </button>
+            <button disabled={!hasNextPage || isFetchingNextPage} role="button" onClick={handleClick}>
+              {isFetchingNextPage ? 'Loading more...' : hasNextPage ? 'Load More' : 'Nothing more to load'}
+            </button>
         </section>
     </>
   );

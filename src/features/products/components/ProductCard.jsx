@@ -6,7 +6,7 @@ const { product } = props;
   return (
     <article className="product-card" tabIndex="0">
         <div className="product-img">
-            <img src={product.images[0]} alt={product.name} loading="lazy" />
+            <img src={product.images[0]} alt={product.title} loading="lazy" />
         </div>
         <div className="product-info">
             <h3>{product.title}</h3>

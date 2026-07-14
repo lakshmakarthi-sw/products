@@ -13,7 +13,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--text-light-color);
+  color: var(--text-dark-color);
 }
 
 .loader {
@@ -55,7 +55,7 @@
 .header {
   grid-area: header;
   align-self: center;
-  margin: 0 3rem;
+  margin: 0 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -112,6 +112,7 @@
       margin-bottom: 10px;
       border-radius: var(--border-radius);
       transition: background-color 0.3s, color 0.3s;
+      color: var(--primary-color);
 
       &:hover {
         background-color: var(--bg-light-color);
@@ -139,6 +140,7 @@ main {
     border-radius: var(--border-radius);
     border: 1px solid var(--text-light-color);
     width: 200px;
+    color: var(--text-dark-color);
   }
 
   button {
@@ -206,6 +208,11 @@ main {
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+
+  p {
+    color: var(--text-dark-color);
+  }
+  
 }
 
 .load-more-section {
@@ -236,6 +243,7 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
+  color: var(--text-dark-color);
 }
 
 .message-page {
