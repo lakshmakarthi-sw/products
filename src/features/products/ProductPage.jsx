@@ -11,7 +11,7 @@ const ProductPage = () => {
   }, 3000);
 
   return (
-    <main className="main">
+    <>
         <SearchSection />
         <section className="product-list">
                 <ProductList />
@@ -21,7 +21,7 @@ const ProductPage = () => {
                   {queryClient.isFetchingNextPage ? 'Loading more...' : queryClient.hasNextPage ? 'Load More' : 'Nothing more to load'}
                 </button>
         </section>
-    </main>
+    </>
   );
 }   
 

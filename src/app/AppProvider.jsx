@@ -28,5 +28,4 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-// 4. Custom Hook for consumption
 export const useApp = () => useContext(AppContext);

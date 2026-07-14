@@ -1,18 +1,12 @@
-import { lazy, Suspense, useEffect } from 'react';
-import Header from '../components/Header';
-import SideBar from '../components/SideBar';
-import ProductPage from '../features/products/ProductPage';
-import Footer from '../components/Footer';
+import { useEffect } from 'react';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from './queryClient';
 import { useApp } from './AppProvider';
-import { Route, Routes } from 'react-router';
-
-const MessagePage = lazy(() => import('../components/Message'));
-const AboutPage = lazy(() => import('../features/about/AboutPage'));
+import { RouterProvider } from 'react-router';
+import router from './routes';
 
 function App() {
-  const { isToggled, handleToggle } = useApp();
+  const { handleToggle } = useApp();
 
   useEffect(() => {
     const event = window.addEventListener('resize', () => {
@@ -30,18 +24,9 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<MessagePage content="Loading" />}>
-        <Routes>
-          <Route path='/' element={<div className="layout">
-            <Header title="Products" />
-            {isToggled && <SideBar />}
-            <ProductPage />
-            <Footer />
-          </div>} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path='*' element={<MessagePage  content="Page Not Found" />} />
-        </Routes>
-      </Suspense>
+      <RouterProvider router={router}>
+        <App />
+      </RouterProvider>
     </QueryClientProvider>
   )
 }
