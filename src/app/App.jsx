@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import Header from '../components/Header';
 import SideBar from '../components/SideBar';
 import ProductPage from '../features/products/ProductPage';
@@ -6,16 +6,19 @@ import Footer from '../components/Footer';
 import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from './queryClient';
 import { useApp } from './AppProvider';
+import { Route, Routes } from 'react-router';
+
+const MessagePage = lazy(() => import('../components/Message'));
 
 function App() {
- const { isToggled } = useApp();
+  const { isToggled, handleToggle } = useApp();
 
- useEffect(() => {
+  useEffect(() => {
     const event = window.addEventListener('resize', () => {
-      if (480 < window.innerWidth && window.innerWidth <= 768) {
-        setIsToggled(false);
+      if (navigator.userAgentData.mobile) {
+        handleToggle(false);
       } else {
-        setIsToggled(true);
+        handleToggle(true);
       }
     });
 
@@ -26,12 +29,17 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <div className="layout">
-        <Header title="Products" />
-        {isToggled && <SideBar />}
-        <ProductPage />
-        <Footer />
-      </div>
+      <Suspense fallback={<MessagePage content="Loading" />}>
+        <Routes>
+          <Route path='/' element={<div className="layout">
+            <Header title="Products" />
+            {isToggled && <SideBar />}
+            <ProductPage />
+            <Footer />
+          </div>} />
+          <Route path='*' element={<MessagePage  content="Page Not Found" />} />
+        </Routes>
+      </Suspense>
     </QueryClientProvider>
   )
 }

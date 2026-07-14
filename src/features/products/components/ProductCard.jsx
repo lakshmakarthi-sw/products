@@ -11,7 +11,7 @@ const { product } = props;
         <div className="product-info">
             <h3>{product.title}</h3>
             <div className="product-price-rating">
-                <p>Price: {product.price.toFixed(2)}</p>
+                <p>{`Price: ${product.price.toFixed(2)}`}</p>
                 <p>${product.rating}</p>
             </div>
         </div>

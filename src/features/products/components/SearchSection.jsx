@@ -1,14 +1,20 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useApp } from "../../../app/AppProvider";
-import ProductCard from "./ProductCard";
+import useDebounce from "../../../hooks/useDebounce";
 
 const SearchSection = () => {
   const { handleSearch } = useApp();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearchQuery] = useDebounce(searchQuery, 300);
 
   const handleSearchInputChange = useCallback((event) => {
     const query = event.target.value;
-    handleSearch(query);
+    setSearchQuery(query);
   }, []);
+
+  useEffect(() => {
+    debouncedSearchQuery && handleSearch(debouncedSearchQuery);
+  }, [debouncedSearchQuery, handleSearch]);
 
   return (
     <section className="search-section">

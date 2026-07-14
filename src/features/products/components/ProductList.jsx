@@ -3,21 +3,29 @@ import ProductCard from "./ProductCard";
 import productService from "../ProductService";
 import { useApp } from "../../../app/AppProvider";
 
-const ProductList = (props) => {
+const ProductList = () => {
   const { searchQuery } = useApp();
 
-  const { data: products, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["products", searchQuery],
     queryFn: productService.searchProducts.bind(null, {
       q: searchQuery,
-      limit: 10,
+      limit: 12,
       skip: 0,
     }),
   });
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  } 
+
   return (
     <>
-      {products?.products?.map((product) => (
+      {data?.products?.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}
     </>

@@ -1,20 +1,18 @@
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [isToggled, setIsToggled] = useState(true);
+  const [isToggled, setIsToggled] = useState(!navigator.userAgentData.mobile);
 
   const handleSearch = (query) => {
     setSearchQuery(query); 
   };
 
-  const handleToggle = () => {
-    setIsToggled((prevState) => !prevState);
+  const handleToggle = (toggle) => {
+    setIsToggled(() => toggle);
   };
-
-  console.log('AppProvider render: isToggled =', searchQuery); // Log the current state of isToggled
 
   return (
     <AppContext.Provider
